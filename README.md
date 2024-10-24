@@ -35,9 +35,22 @@ item.foreign_keys = (struct ForeignKey[]){f};
 ```
 prepare strings for dropping and creating the tables:
 ```
-char str[4096];
+char person_drop_str[4096];
 Table_drop(&person, str);
+char item_drop_str[4096];
 Table_drop(&item, str);
+char person_create_str[4096];
 Table_create(&person, str);
+char item_create_str[4096];
 Table_create(&item, str);
+```
+
+execute the prepared sql against the preferred database:
+```
+sqlite3 *db;
+sqlite3_open("example.db", &db);
+sqlite3_exec(db, person_drop_str, callback, 0, &error_msg);
+sqlite3_exec(db, person_create_str, callback, 0, &error_msg);
+sqlite3_exec(db, item_drop_str, callback, 0, &error_msg);
+sqlite3_exec(db, item_create_str, callback, 0, &error_msg);
 ```
