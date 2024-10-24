@@ -53,4 +53,5 @@ sqlite3_exec(db, person_drop_str, callback, 0, &error_msg);
 sqlite3_exec(db, person_create_str, callback, 0, &error_msg);
 sqlite3_exec(db, item_drop_str, callback, 0, &error_msg);
 sqlite3_exec(db, item_create_str, callback, 0, &error_msg);
+sqlite3_close(db);
 ```
