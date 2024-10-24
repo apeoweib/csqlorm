@@ -3,7 +3,12 @@
 A basic c orm for generating sql statements for creating and destroying tables
 and inserting and deleting rows.
 
-This is a work in progress.
+to use the orm:
+1. Define your struct
+2. Define a Table object for storing the fields of the struct.  You may also
+   need to define additional tables for any aggregate fields in the struct.
+3. Define a TableMap object that maps struct fields to columns in the Table
+   object.
 
 ## Defining Tables
 
@@ -45,7 +50,8 @@ char item_create_str[4096];
 Table_create(&item, str);
 ```
 
-execute the prepared sql against the preferred database:
+execute the prepared sql against the preferred database (sqlite in this
+example) to generate the tables:
 ```
 sqlite3 *db;
 sqlite3_open("example.db", &db);
@@ -54,4 +60,15 @@ sqlite3_exec(db, person_create_str, callback, 0, &error_msg);
 sqlite3_exec(db, item_drop_str, callback, 0, &error_msg);
 sqlite3_exec(db, item_create_str, callback, 0, &error_msg);
 sqlite3_close(db);
+```
+
+# Defining TableMaps
+```
+TBD
+```
+
+
+# Inserting and Deleting Objects
+```
+TBD
 ```
