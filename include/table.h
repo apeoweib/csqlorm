@@ -4,9 +4,10 @@
 #include "table_map.h"
 
 enum ColumnConstraint {
-    CC_UNIQUE,
-    CC_PRIMARY_KEY,
-    CC_NOT_NULL
+    CC_NONE = 0,
+    CC_UNIQUE = 1,
+    CC_PRIMARY_KEY = 2,
+    CC_NOT_NULL = 4
 };
 
 enum ColumnType {
@@ -18,9 +19,10 @@ enum ColumnType {
 struct Column {
     char *name;
     enum ColumnType type;
-    int is_unique;
-    int is_primary_key;
-    int is_not_null;
+    enum ColumnConstraint constraints;
+    // int is_unique;
+    // int is_primary_key;
+    // int is_not_null;
 };
 
 

@@ -65,20 +65,20 @@ int main(void) {
     person.name = "person";
     person.num_columns = 4;
     person.columns = (struct Column[]) {
-        {"id",     S_INT,    0, 1, 0},
-        {"name",   S_TEXT,   1, 0, 1},
-        {"age",    S_INT,    0, 0, 1},
-        {"weight", S_DOUBLE, 0, 0, 1}};
+        {"id",     S_INT,    CC_PRIMARY_KEY},
+        {"name",   S_TEXT,   CC_UNIQUE | CC_NOT_NULL},
+        {"age",    S_INT,    CC_NOT_NULL},
+        {"weight", S_DOUBLE, CC_NOT_NULL}};
     person.num_foreign_keys = 0; 
 
     struct Table item;
     item.name = "item";
     item.num_columns = 4;
     item.columns = (struct Column[]) {
-        {"id", S_INT, 0, 1, 0},
-            {"name", S_TEXT, 1, 0, 1},
-            {"count", S_INT, 0, 0, 1},
-            {"person_id", S_INT, 0, 0, 0}};
+        {"id", S_INT, CC_PRIMARY_KEY},
+            {"name", S_TEXT, CC_UNIQUE | CC_NOT_NULL},
+            {"count", S_INT, CC_NOT_NULL},
+            {"person_id", S_INT, CC_NONE}}; 
     item.num_foreign_keys = 1;
     item.foreign_keys = (struct ForeignKey[]){
         {&item.columns[3], &person, &person.columns[0]}};
@@ -123,18 +123,10 @@ int main(void) {
         {FMT_ARRAY, .array={&item_map, &item_map.table->foreign_keys[0], offsetof(struct Person, item), offsetof(struct Person, num_item)}}
     };
 
-    // inserting an item directly into the table using the item map.  THe
-    // foreign key reference to the person table wil be null.
     Table_insert((char *)&item_struct, &item_map, str);
     printf("%s table insert:\n%s\n", item.name, str);
     exec(db, str);
 
-    // inserting a person with one item into the person table using the person map.
-    // The person's item should also be entered into the item table, with the
-    // correct foreign key reference to the newly created person.  If there
-    // is an error in inserting the item (such as a violation of a
-    // uniqueness constraint) the person should also not be entered, i.e.
-    // the transaction should be atomic.
     Table_insert((char *)&person_struct, &person_map, str);
     printf("%s table insert:\n%s\n", person.name, str);
     exec(db, str);

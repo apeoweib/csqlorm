@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <string.h>
-#include "table.h"
+#include "../include/table.h"
 
 const char sql_int_type[] = "integer";
 const char sql_double_type[] = "double";
@@ -31,14 +31,14 @@ void Table_create(const struct Table *table, char query[]) {
         char column_def[512];
         struct Column *c = &table->columns[i];
         sprintf(column_def, create_column, c->name, type_to_str(c->type));
-        if(!c->is_primary_key && c->is_unique) {
-            strcat(column_def, is_unique);
-        }
-        if(c->is_primary_key) {
+        if(c->constraints & CC_PRIMARY_KEY) {
             strcat(column_def, is_primary_key);
-        }
-        if(!c->is_primary_key && c->is_not_null) {
-            strcat(column_def, is_not_null);
+        } else {
+            if(c->constraints & CC_UNIQUE) {
+                strcat(column_def, is_unique);
+            } else if(c->constraints & CC_NOT_NULL) {
+                strcat(column_def, is_not_null);
+            }
         }
         if(i < table->num_columns - 1 || table->num_foreign_keys > 0) {
             strcat(column_def, ", ");
