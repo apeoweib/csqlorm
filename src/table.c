@@ -140,4 +140,3 @@ void Table_insert(char *data, struct TableMap *map, char query[]) {
     }
     strcat(query, ");\n");
 }
-

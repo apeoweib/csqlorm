@@ -3,6 +3,12 @@
 #include <stdlib.h>
 #include "table_map.h"
 
+enum ColumnConstraint {
+    CC_UNIQUE,
+    CC_PRIMARY_KEY,
+    CC_NOT_NULL
+};
+
 enum ColumnType {
     S_TEXT,
     S_INT,
