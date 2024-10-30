@@ -40,14 +40,15 @@ item.foreign_keys = (struct ForeignKey[]){
 ```
 prepare strings for dropping and creating the tables:
 ```
-char person_drop_str[4096];
-Table_drop(&person, str);
+size_t bufsize = 4096;
+char person_drop_str[bufsize];
+snprintf_table_drop(&person, bufsize, str);
 char item_drop_str[4096];
-Table_drop(&item, str);
+snprintf_table_drop(&item, bufsize, str);
 char person_create_str[4096];
-Table_create(&person, str);
+snprintf_table_create(&person, bufsize, str);
 char item_create_str[4096];
-Table_create(&item, str);
+snprintf_table_create(&item, bufsize, str);
 ```
 
 execute the prepared sql against the preferred database (sqlite in this
