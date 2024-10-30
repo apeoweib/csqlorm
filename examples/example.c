@@ -83,17 +83,18 @@ int main(void) {
     item.foreign_keys = (struct ForeignKey[]){
         {&item.columns[3], &person, &person.columns[0]}};
 
-    char str[4096];
-    Table_drop(&person, str);
+    size_t buflen = 4096;
+    char str[buflen];
+    snprintf_table_drop(str, 4096, &person);
     printf("table drop:\n%s\n", str);
     exec(db, str);
-    Table_drop(&item, str);
+    snprintf_table_drop(str, 4096, &item);
     printf("table drop:\n%s\n", str);
     exec(db, str);
-    Table_create(&person, str);
+    snprintf_table_create(str, 4096, &person);
     printf("table create:\n%s\n", str);
     exec(db, str);
-    Table_create(&item, str);
+    snprintf_table_create(str, 4096, &item);
     printf("table create:\n%s\n", str);
     exec(db, str);
 
@@ -123,11 +124,11 @@ int main(void) {
         {FMT_ARRAY, .array={&item_map, &item_map.table->foreign_keys[0], offsetof(struct Person, item), offsetof(struct Person, num_item)}}
     };
 
-    Table_insert((char *)&item_struct, &item_map, str);
+    snprintf_table_insert(str, 4096, (char *)&item_struct, &item_map);
     printf("%s table insert:\n%s\n", item.name, str);
     exec(db, str);
 
-    Table_insert((char *)&person_struct, &person_map, str);
+    snprintf_table_insert(str, 4096, (char *)&person_struct, &person_map);
     printf("%s table insert:\n%s\n", person.name, str);
     exec(db, str);
 

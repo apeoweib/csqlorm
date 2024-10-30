@@ -40,8 +40,8 @@ struct Table {
     size_t num_foreign_keys;
 };
 
-void Table_create(const struct Table *table, char query[]);
-void Table_drop(const struct Table *table, char query[]);
-void Table_insert(char *data, struct TableMap *map, char query[]);
+int snprintf_table_create(char * restrict query, size_t size, const struct Table *table);
+int snprintf_table_drop(char * restrict query, size_t size, const struct Table *table);
+int snprintf_table_insert(char * restrict query, size_t size, const char *data, const struct TableMap *map);
 
 #endif
