@@ -41,7 +41,10 @@ struct Table {
 };
 
 int snprintf_table_create(char * restrict query, size_t size, const struct Table *table);
+int asprintf_table_create(char **query, const struct Table *table);
 int snprintf_table_drop(char * restrict query, size_t size, const struct Table *table);
+int asprintf_table_drop(char **query, const struct Table *table);
 int snprintf_table_insert(char * restrict query, size_t size, const char *data, const struct TableMap *map);
+int asprintf_table_insert(char **query, const char * data, const struct TableMap *map);
 
 #endif
