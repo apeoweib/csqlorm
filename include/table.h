@@ -20,9 +20,6 @@ struct Column {
     char *name;
     enum ColumnType type;
     enum ColumnConstraint constraints;
-    // int is_unique;
-    // int is_primary_key;
-    // int is_not_null;
 };
 
 
